@@ -135,4 +135,10 @@ pixel_y = OY − y · SCALE   ← eje Y invertido porque en pantalla crece hacia
 
 Trabajo Grupal — Grupo 6
 
+- Del Castillo Wan, Mauricio Adriel - U202517849
+- Ñique Matta, Alessandra Nicolle - U202514929
+- Bravo Canchanya, Paolo Cesar - U20251B279
+- Figueroa Huanay, Esteban Alonso - U202512031
+- Mariño Jacobe, James Christopher - U202511010
+
 Curso: Matemática Discreta · Sección 15242 · Ciclo 202610

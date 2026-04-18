@@ -1,0 +1,11 @@
+# ==========================================
+# TRABAJO 02 - Visualización computacional
+# de transformaciones lineales en ℝ²
+# ==========================================
+# Python version: 3.11.9
+
+# Renderizado y ventana
+pygame==2.6.1
+
+# Cálculo numérico y álgebra lineal
+numpy==2.4.4

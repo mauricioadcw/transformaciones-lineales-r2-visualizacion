@@ -37,6 +37,12 @@ Instalar dependencias:
 pip install pygame numpy
 ```
 
+o
+
+```bash
+pip install -r .\requirements.txt
+```
+
 ---
 
 ## Ejecución

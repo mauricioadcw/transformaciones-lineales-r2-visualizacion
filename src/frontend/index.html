@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lineal Transform Studio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<!-- ─── SPLASH ────────────────────────────────────────────── -->
+<div id="splash">
+  <div class="splash-accent-bar"></div>
+  <h1 class="splash-title">Lineal Transform<br><span>Studio</span></h1>
+  <p class="splash-sub">Visualización Interactiva de Transformaciones Lineales en ℝ²</p>
+  <div class="splash-cards">
+    <div class="splash-card">
+      <div class="splash-card-icon">▷</div>
+      <div class="splash-card-name">Videojuegos</div>
+      <div class="splash-card-desc">Sprites, cámaras 2D, colisiones y física</div>
+    </div>
+    <div class="splash-card">
+      <div class="splash-card-icon">◎</div>
+      <div class="splash-card-name">Gráficos 3D</div>
+      <div class="splash-card-desc">Renderizado, proyección y clipping</div>
+    </div>
+    <div class="splash-card">
+      <div class="splash-card-icon">※</div>
+      <div class="splash-card-name">Robótica</div>
+      <div class="splash-card-desc">Cinemática y orientación de sensores</div>
+    </div>
+    <div class="splash-card">
+      <div class="splash-card-icon">⨃</div>
+      <div class="splash-card-name">Visión IA</div>
+      <div class="splash-card-desc">AR, perspectiva y reconocimiento</div>
+    </div>
+  </div>
+  <div class="splash-divider"></div>
+  <p class="splash-meta">Matemática Discreta · 1AMA0708 · Trabajo Grupal TB1</p>
+  <button class="splash-btn" id="splash-btn">▶ &nbsp;Iniciar Simulador</button>
+  <p class="splash-hint">Haz clic en el botón para continuar</p>
+</div>
+
+<!-- ─── APP ───────────────────────────────────────────────── -->
+<div id="app">
+
+  <!-- SIDEBAR IZQUIERDO (controles) -->
+  <aside id="sidebar">
+    <div id="sidebar-header">
+      <div class="logo">Lineal Transform Studio</div>
+      <div class="sub">Transformaciones Lineales en ℝ²</div>
+    </div>
+    <div id="sidebar-body">
+      <div class="sec-label">Figura</div>
+      <div class="fig-grid" id="fig-grid"></div>
+
+      <div class="sec-label">Transformación</div>
+      <div class="tr-list" id="tr-list"></div>
+
+      <div class="sec-label">Parámetros</div>
+      <div id="params-wrap">
+        <div class="param-row">
+          <div class="param-header">
+            <span class="param-label">θ &nbsp;Ángulo de rotación</span>
+            <span class="param-value" id="val-ang" style="--c:var(--rot)">45°</span>
+          </div>
+          <div class="param-track" id="track-ang" data-param="ang">
+            <div class="param-fill" id="fill-ang" style="--c:var(--rot);width:62.5%"></div>
+          </div>
+          <div class="param-hints"><span>−180°</span><span>+180°</span></div>
+        </div>
+        <div class="param-row">
+          <div class="param-header">
+            <span class="param-label">k &nbsp;Factor de escala</span>
+            <span class="param-value" id="val-esc" style="--c:var(--hom)">2.00</span>
+          </div>
+          <div class="param-track" id="track-esc" data-param="esc">
+            <div class="param-fill" id="fill-esc" style="--c:var(--hom);width:49%"></div>
+          </div>
+          <div class="param-hints"><span>0.1×</span><span>4×</span></div>
+        </div>
+        <div class="param-row">
+          <div class="param-header">
+            <span class="param-label">k &nbsp;Factor de cizalla</span>
+            <span class="param-value" id="val-ciz" style="--c:var(--shrx)">1.00</span>
+          </div>
+          <div class="param-track" id="track-ciz" data-param="ciz">
+            <div class="param-fill" id="fill-ciz" style="--c:var(--shrx);width:66.7%"></div>
+          </div>
+          <div class="param-hints"><span>−3</span><span>+3</span></div>
+        </div>
+      </div>
+
+      <div class="sec-label">Visualización</div>
+      <div class="opt-list" id="opt-list"></div>
+
+      <div class="sec-label">Atajos</div>
+      <div class="shortcut-grid">
+        <span class="sc-key">ESPACIO</span><span class="sc-desc">Animar transformación</span>
+        <span class="sc-key">±</span>      <span class="sc-desc">Ajustar parámetro activo</span>
+        <span class="sc-key">R</span>      <span class="sc-desc">Reiniciar parámetros</span>
+        <span class="sc-key">← →</span>   <span class="sc-desc">Cambiar figura</span>
+        <span class="sc-key">↑ ↓</span>   <span class="sc-desc">Cambiar transformación</span>
+        <span class="sc-key">scroll</span> <span class="sc-desc">Zoom (centrado en cursor)</span>
+        <span class="sc-key">drag</span>   <span class="sc-desc">Pan del plano cartesiano</span>
+        <span class="sc-key">ESC</span>    <span class="sc-desc">Volver al menú</span>
+      </div>
+    </div>
+
+    <!-- Barra de progreso de animación -->
+    <div id="anim-bar">
+      <div id="anim-label">
+        <span id="anim-status" style="color:var(--txt-muted)">Listo</span>
+        <span id="anim-pct"    style="color:var(--txt-dim)">—</span>
+      </div>
+      <div id="anim-track"><div id="anim-fill" style="background:var(--accent)"></div></div>
+    </div>
+  </aside>
+
+  <!-- PLANO CARTESIANO -->
+  <div id="canvas-wrap">
+    <canvas id="main-canvas"></canvas>
+    <div id="fig-badge">—</div>
+    <div id="fps">— fps</div>
+  </div>
+
+  <!-- PANEL DE INFO MATEMÁTICA (inferior) -->
+  <div id="info-panel">
+    <div>
+      <div class="info-block-title">Transformación activa</div>
+      <div id="tr-name-badge">—</div>
+      <div id="tr-formula" class="eq-line"></div>
+      <div id="tr-desc"    class="eq-line"></div>
+    </div>
+    <div>
+      <div class="info-block-title">Matriz 2×2</div>
+      <div id="matrix-display">
+        <span class="mat-bracket" id="mat-br-l" style="--c-tr:var(--accent)">[</span>
+        <div class="mat-grid">
+          <div class="mat-cell diag" id="m00">—</div>
+          <div class="mat-cell"      id="m01">—</div>
+          <div class="mat-cell"      id="m10">—</div>
+          <div class="mat-cell diag" id="m11">—</div>
+        </div>
+        <span class="mat-bracket" id="mat-br-r" style="--c-tr:var(--accent)">]</span>
+      </div>
+    </div>
+    <div id="eq-col">
+      <div class="info-block-title">Ecuación</div>
+      <div id="eq-main"  class="eq-line main">—</div>
+      <div id="eq-param" class="eq-line param">—</div>
+      <div id="eq-note"  class="eq-line note">—</div>
+    </div>
+    <div>
+      <div class="info-block-title">Propiedades</div>
+      <div class="prop-grid" id="prop-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── LENGÜETA Y PANEL DE APPS (derecho) ────────────────── -->
+<div id="apps-tab" title="Aplicaciones reales">
+  <span id="apps-tab-arrow">‹</span>
+  <span id="apps-tab-label">Apps reales</span>
+</div>
+
+<div id="apps-panel">
+  <div id="apps-panel-header">
+    <div class="aph-title">Aplicaciones Reales</div>
+    <div class="aph-sub">Dónde se usan las transformaciones lineales</div>
+  </div>
+  <div id="apps-panel-body"></div>
+</div>
+
+<!-- ─── MODAL (overlay + tarjeta) ────────────────────────── -->
+<div id="modal-overlay"></div>
+<div id="modal-card">
+  <div id="modal-header">
+    <div id="modal-title-row">
+      <span id="modal-icon"></span>
+      <span id="modal-title"></span>
+    </div>
+    <div id="modal-close" title="Cerrar (ESC)">✕</div>
+  </div>
+  <div id="modal-body">
+    <p id="modal-desc"></p>
+    <div class="modal-section-title">Transformaciones relacionadas</div>
+    <div class="modal-pills" id="modal-pills"></div>
+    <div class="modal-example">
+      <div class="modal-example-title" id="modal-example-title"></div>
+      <div class="modal-bullets"       id="modal-bullets"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Lógica JavaScript -->
+<script src="js/script.js"></script>
+</body>
+</html>

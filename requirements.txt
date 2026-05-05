@@ -1,6 +1,6 @@
 # ==========================================
 # TRABAJO 02 - Visualización computacional
-# de transformaciones lineales en ℝ²
+# de transformaciones lineales en R²
 # ==========================================
 # Python version: 3.11.9
 
